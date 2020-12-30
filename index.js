@@ -21,6 +21,7 @@ console.log(`
 | |         WELCOME TO EMPLOYEE TRACKER            | |
 | |_ __ __ __ __ __ __ __ ___ ___ __ __ __ __ __ __| |                                                 |
 |____________________________________________________|
+
 `)
 choiceOptions();
 })
@@ -179,6 +180,7 @@ function addEmployee(){
     .then(answers=>{
         connection.query(sql,[answers.First_name, answers.Last_name, answers.Employee_role, answers.Employee_manager],(err,row)=>{
             if(err) throw err;
+            console.table(row)
             console.log(`${answers.First_name} ${answers.Last_name} Been Added to employee `);
             choiceOptions();
         })
@@ -186,6 +188,46 @@ function addEmployee(){
 }
 
 function updateEmployee(){
-const sql=`UPDATE employee SET `
+    const sql=`SELECT * FROM employee`;
+    connection.query(sql,(err,row)=>{
+        if(err) throw err,
+        console.table(row);
+    })
+    
+inquirer
+.prompt([{
+    type:'input',
+    name:'roleUpdate',
+    message:'Please !! Can you entre role id  which  would you like to update your employee ',
+    
+},{
+    type:'input',
+    name:'employeeid',
+    message:'can you select employee id which would you like to update'
 
-}
+}])
+.then(answers=>{
+    connection.query('UPDATE employee SET roles_id=? WHERE id=?',[answers.roleUpdate,answers.employeeid],(err,row)=>{
+    if(err) throw err;
+    console.table(row);
+    choiceOptions();
+})
+}).catch(error => {
+    if(error.isTtyError) {
+        console.log('something wents wrong !! try again')
+    } else {
+        
+      console.log('errorr 223')
+    }
+  })
+};
+
+// function updaterolesid(){
+
+// };
+
+// function updatemanagerid(){
+
+// };
+
+
