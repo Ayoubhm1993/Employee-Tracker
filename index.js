@@ -7,7 +7,7 @@ const cTable=require('console.table');
 const connection = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
-    password:'Master$1993',
+    password:'*******',
     database:'tracker'
 });
 connection.connect(function(err){
